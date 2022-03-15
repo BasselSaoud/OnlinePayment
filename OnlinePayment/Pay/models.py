@@ -1,0 +1,27 @@
+from django.db import models
+
+# Simple User Model
+class SimpleUser(models.Model):
+    username = models.CharField(primary_key=True, max_length=128)
+    password = models.CharField(max_length=128)
+    date_created = models.DateTimeField(auto_now_add = True)
+
+# API Key model
+class APIKey(models.Model):
+    api_key = models.CharField(primary_key=True, max_length=64)
+    user = models.ForeignKey(
+        'SimpleUser',
+        on_delete = models.CASCADE,
+    )
+
+# Authentication Token model
+class AuthenticationToken(models.Model):
+    token = models.CharField(primary_key=True, max_length=64)
+    api_key = models.ForeignKey(
+        'APIKey',
+        on_delete = models.CASCADE,
+    )
+    date_created = models.DateTimeField(auto_now_add = True)
+
+class Order(models.Model):
+    
