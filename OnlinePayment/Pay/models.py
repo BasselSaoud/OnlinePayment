@@ -2,8 +2,8 @@ from django.db import models
 
 # Simple User Model
 class SimpleUser(models.Model):
-    username = models.CharField(primary_key=True, max_length=128)
-    password = models.CharField(max_length=128)
+    username = models.CharField(primary_key=True, max_length=100)
+    password = models.CharField(max_length=100)
     date_created = models.DateTimeField(auto_now_add = True)
 
 # API Key model
@@ -23,5 +23,15 @@ class AuthenticationToken(models.Model):
     )
     date_created = models.DateTimeField(auto_now_add = True)
 
+# Order model
 class Order(models.Model):
-    
+    amount_cents = models.BigIntegerField()
+
+# Payment Token model
+class PaymentToken(models.Model):
+    payment_token = models.CharField(primary_key=True, max_length=64)
+    order = models.ForeignKey(
+        'Order',
+        on_delete = models.CASCADE,
+    )
+    amount_cents = models.BigIntegerField()

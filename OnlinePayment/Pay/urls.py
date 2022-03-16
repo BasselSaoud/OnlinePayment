@@ -1,7 +1,9 @@
 from django.urls import path
-from Pay.views import RegisterSimpleUser, GetAuthenticationToken
+from Pay.views import *
 
 urlpatterns = [
-    path('register/', RegisterSimpleUser),
-    path('auth/tokens/', GetAuthenticationToken)
+    path('register/', registerSimpleUser),
+    path('auth/tokens/', getAuthenticationToken),
+    path('orders/', registerOrder),
+    path('payment/tokens/', getPaymentToken)
 ]
