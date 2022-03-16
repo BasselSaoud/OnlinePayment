@@ -88,12 +88,12 @@ def registerOrder(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     # Check authentication token validity
-    auth_token = AuthenticationToken.objects.filter(token=request.data['auth_token'])
+    auth_token = AuthenticationToken.objects.filter(auth_token=request.data['auth_token'])
     if not auth_token.exists():
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     # Check if authentication token expired
-    date_created = AuthenticationToken.objects.get(token=request.data['auth_token']).date_created
+    date_created = AuthenticationToken.objects.get(auth_token=request.data['auth_token']).date_created
     if abs(datetime.now(pytz.utc) - date_created).total_seconds() > 3600:
         return Response({"error": "authentication token has expired"}, status=status.HTTP_403_FORBIDDEN)
 
@@ -113,16 +113,17 @@ def getPaymentToken(request):
     # If request data has no api key respond with 400 bad request
     try:
         auth_token = request.data['auth_token']
+        amount_cents = request.data['amount_cents']
     except:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     # Check authentication token validity
-    auth_token = AuthenticationToken.objects.filter(token=request.data['auth_token'])
+    auth_token = AuthenticationToken.objects.filter(auth_token=request.data['auth_token'])
     if not auth_token.exists():
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     # Check if authentication token expired
-    date_created = AuthenticationToken.objects.get(token=request.data['auth_token']).date_created
+    date_created = AuthenticationToken.objects.get(auth_token=request.data['auth_token']).date_created
     if abs(datetime.now(pytz.utc) - date_created).total_seconds() > 3600:
         return Response({"error": "authentication token has expired"}, status=status.HTTP_403_FORBIDDEN)
 
@@ -133,8 +134,8 @@ def getPaymentToken(request):
 
     # Get order and create new payment
     order = Order.objects.get(id=request.data['order_id'])
-    token = pbkdf2_sha256.hash(order.id + datetime.now().strftime('%c'))
-    payment_token = PaymentToken.objects.create(payment_token=token, order=order)
+    token = pbkdf2_sha256.hash(str(order.id) + datetime.now().strftime('%c'))
+    payment_token = PaymentToken.objects.create(payment_token=token, order=order, amount_cents=request.data['amount_cents'])
+    payment_token.save()
     serializer = PaymentTokenSerializer(instance=payment_token)
-    serializer.save()
-    return Response(data=serializer, status=status.HTTP_201_CREATED)
+    return Response(data=serializer.data, status=status.HTTP_201_CREATED)
