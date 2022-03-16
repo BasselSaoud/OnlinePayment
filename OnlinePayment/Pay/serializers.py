@@ -19,7 +19,7 @@ class APIKeySerializer(serializers.ModelSerializer):
 class AuthenticationTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = AuthenticationToken
-        fields = ['token']
+        fields = ['auth_token']
 
 # Order serializer
 class OrderSerializer(serializers.ModelSerializer):

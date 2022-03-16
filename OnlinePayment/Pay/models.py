@@ -16,7 +16,7 @@ class APIKey(models.Model):
 
 # Authentication Token model
 class AuthenticationToken(models.Model):
-    token = models.CharField(primary_key=True, max_length=64)
+    auth_token = models.CharField(primary_key=True, max_length=64)
     api_key = models.ForeignKey(
         'APIKey',
         on_delete = models.CASCADE,

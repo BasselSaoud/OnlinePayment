@@ -70,7 +70,7 @@ def getAuthenticationToken(request):
 
     # Create authentication token
     token = pbkdf2_sha256.hash(api_key.api_key + datetime.now().strftime('%c'))
-    authentication_token = AuthenticationToken.objects.create(token=token, api_key=api_key)
+    authentication_token = AuthenticationToken.objects.create(auth_token=token, api_key=api_key)
     authentication_token.save()
 
     # Serialize and respond
