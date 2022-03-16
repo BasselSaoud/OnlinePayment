@@ -61,7 +61,8 @@ Method: POST
 Example request:
 {
   "auth_token": "dnfBjdu485nDus....",
-  "order_id": 1
+  "order_id": 1,
+  "amount_cents": 100
 }
 
 Example response
