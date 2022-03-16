@@ -1,5 +1,5 @@
 # OnlinePayment
-An extremely simple online payment API that mimics Paymob's (https://docs.paymob.com/docs/accept-standard-redirect), built with Django REST Framework
+An extremely simple online payment API that mimics Paymob's Payment API flow (https://docs.paymob.com/docs/accept-standard-redirect), built with Django REST Framework
 
 Usage:
 1- Register a new user
