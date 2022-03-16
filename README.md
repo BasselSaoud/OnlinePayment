@@ -9,7 +9,7 @@ Method: POST
 
 Example request:
 {
-  "user": "user",
+  "username": "user",
   "password": "password"
 }
 
